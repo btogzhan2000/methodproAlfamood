@@ -1,0 +1,462 @@
+{% import "bootstrap/wtf.html" as wtf %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>AlfaMood AdminPage General Statistics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+   
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet"
+      href="{{url_for('static', filename='assets/css/main.css')}}">
+    <script>
+    window.onload = function () {
+
+        var chart1 = new CanvasJS.Chart("chartContainer1", {
+            theme: "light2",
+            exportFileName: "Doughnut Chart",
+            exportEnabled: true,
+            animationEnabled: true,
+
+            title:{
+                text: "Распределение настроения по проценту"
+            },
+            legend:{
+                cursor: "pointer",
+                itemclick: explodePie,
+            },
+            data: [{
+                type: "doughnut",
+                innerRadius: 60,
+                showInLegend: true,
+                toolTipContent: "<b>{name}</b>: ${y} (#percent%)",
+                indexLabel: "{name} - #percent%",
+                dataPoints: [
+                    { y: {% if date_happy|length %}
+                         {{date_happy}}
+                         {% else %}
+                         {{n_rows_happy}}
+                         {% endif %} , name: "Отлично", color: "#48FA09" },
+                    { y: {% if date_good|length %}
+                         {{date_good}}
+                         {% else %}
+                         {{n_rows_good}}
+                         {% endif %}, name: "Хорошо", color: "#00EFFE" },
+                    { y: {% if date_meh|length %}
+                         {{date_meh}}
+                         {% else %}
+                         {{n_rows_meh}}
+                         {% endif %}, name: "Не очень", color: "#AAB6B1" },
+                    { y: {% if date_sad|length %}
+                         {{date_sad}}
+                         {% else %}
+                         {{n_rows_sad}}
+                         {% endif %}, name: "Плохо", color: "#FFB800" },
+                    { y: {% if date_angry|length %}
+                         {{date_angry}}
+                         {% else %}
+                         {{n_rows_angry}}
+                         {% endif %}, name: "Ужасно", color: "#FD3D00" }
+                ],
+            }]
+        });
+
+        chart1.render();
+
+        function explodePie (e) {
+            if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+                e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+            } else {
+                e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+            }
+            e.chart1.render();
+        }
+
+        var chart2 = new CanvasJS.Chart("chartContainer2", {
+            animationEnabled: true,
+            exportEnabled: true,
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            title:{
+                text: "Распределение настроения по количеству"
+            },
+            axisY: {
+                title: "Количество"
+            },
+            data: [{        
+                type: "column",  
+                dataPoints: [      
+                    { y: {% if date_happy|length %}
+                         {{date_happy}}
+                         {% else %}
+                         {{n_rows_happy}}
+                         {% endif %}, label: "Отлично", color: "#48FA09" },
+                    { y: {% if date_good|length %}
+                         {{date_good}}
+                         {% else %}
+                         {{n_rows_good}}
+                         {% endif %}, label: "Хорошо", color: "#00EFFE" },
+                    { y: {% if date_meh|length %}
+                         {{date_meh}}
+                         {% else %}
+                         {{n_rows_meh}}
+                         {% endif %}, label: "Не очень", color: "#AAB6B1" },
+                    { y: {% if date_sad|length %}
+                         {{date_sad}}
+                         {% else %}
+                         {{n_rows_sad}}
+                         {% endif %}, label: "Плохо", color: "#FFB800" },
+                    { y: {% if date_angry|length %}
+                         {{date_angry}}
+                         {% else %}
+                         {{n_rows_angry}}
+                         {% endif %} , label: "Ужасно", color: "#FD3D00" }
+                ]
+            }]
+        });
+
+        chart2.render();
+
+        
+
+        function toggleDataSeries(e) {
+            if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+            }
+            else {
+                e.dataSeries.visible = true;
+            }
+
+            }
+    }
+
+</script>
+</head>
+<body>
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        <div class="app-header header-shadow">
+            
+              
+            
+        </div>
+
+        <div class="app-main">
+                <div class="app-sidebar sidebar-shadow">
+                    <div class="app-header__mobile-menu">
+                        <div>
+                            <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="app-header__menu">
+                        <span>
+                            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                                <span class="btn-icon-wrapper">
+                                    <i class="fa fa-ellipsis-v fa-w-6"></i>
+                                </span>
+                            </button>
+                        </span>
+                    </div>    
+                    <div class="scrollbar-sidebar">
+                        <div class="app-sidebar__inner">
+                            <div class="sidebar-welcome">
+                                <div class="sidebar-widget-content-left">
+                                    <div class="btn-group">
+                                        <img width="50" height="50" class="metismenu-icon rounded-circle sidebar-icon" src="static/assets/images/adminka.png" alt="">
+                                        <div class="ml-4 welcome-text">
+                                            <div class="widget-welcome">
+                                                Добро пожаловать,
+                                            </div>
+                                            <div class="widget-heading">
+                                                Админ
+                                            </div>
+                                            <div class="widget-subheading">
+                                                Менеджер
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <ul class="vertical-nav-menu">
+                                <li class="app-sidebar__heading">Статистика</li>
+                                <li>
+                                    <a href="{{ url_for('index') }}" class="mm-active">
+                                        <i class="metismenu-icon pe-7s-graph"></i>
+                                        Числовая статистика                                 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url_for('stats') }}">
+                                        <i class="metismenu-icon pe-7s-graph2"></i>
+                                        Причинная статистика
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>    
+
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+
+                        <div class="app-page-title">
+                            <div class="page-title-wrapper">
+                                <div class="page-title-heading">
+                                    <div class="page-title-icon">
+                                        <i class="pe-7s-display2 icon-gradient bg-mean-fruit">
+                                        </i>
+                                    </div>
+                                    <div>Страница с числовой статистикой
+                                        <div class="page-title-subheading">Здесь вы можете найти статистику на цикл вашего выбора
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="page-title-actions">
+                                    <div class="d-inline-block dropdown">
+                                    Выберите период
+                                        <form  action="{{ url_for('moodstats')}}" method="POST" class="form-inline">
+                                            
+                                            <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group">
+                                                    <label class="mr-sm-2"><i class="fa fa-calendar"></i>&nbsp;</label>
+                                              <div class="col-xs-3">
+                                                        <input  type='text' name='datee' id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" />
+                                              </div>
+                                              
+                                             </div><br>
+                                            <button type='submit' value='request_plot' class="mb-3 mr-3 mt-3 btn btn-primary">Submit</button>
+                                        </form>
+                                        
+                                        
+                                    </div>
+                                </div>    
+                            </div>
+                        </div> 
+
+
+                        <div class="row">
+                            <div class="col-md-4 col-xl-6">
+                                <div class="card mb-3 widget-content bg-midnight-bloom">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Ваш департмент</div>  
+                                            <div class="widget-subheading">Х</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-6">
+                                <div class="card mb-3 widget-content bg-arielle-smile">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Sat 03/08/2019</div>
+                                        </div>
+                                        <div class="widget-content-right">
+                                            <div class="widget-numbers text-white"><span>Cycle 1</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 col-xl-3">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Happy</div>
+                                                {% if date_happy|length %}
+                                                <div class="widget-subheading">{{date_happy}}</div>
+                                                {% else %}
+                                                <div class="widget-subheading">{{n_rows_happy}}</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="widget-content-right">
+                                                {% if date_percent_happy|length %}
+                                                <div class="widget-numbers text-happy">{{date_percent_happy}}%</div>
+                                                {% else %}
+                                                <div class="widget-numbers text-happy">{{percent_happy}}%</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-3">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Good</div>
+                                                {% if date_good|length %}
+                                                <div class="widget-subheading">{{date_good}}</div>
+                                                {% else %}
+                                                <div class="widget-subheading">{{n_rows_good}}</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="widget-content-right">
+                                                {% if date_percent_good|length %}
+                                                <div class="widget-numbers text-good">{{date_percent_good}}%</div>
+                                                {% else %}
+                                                <div class="widget-numbers text-good">{{percent_good}}%</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-3">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Meh</div>
+                                                {% if date_meh|length %}
+                                                <div class="widget-subheading">{{date_meh}}</div>
+                                                {% else %}
+                                                <div class="widget-subheading">{{n_rows_meh}}</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="widget-content-right">
+                                                {% if date_percent_meh|length %}
+                                                <div class="widget-numbers text-meh">{{date_percent_meh}}%</div>
+                                                {% else %}
+                                                <div class="widget-numbers text-meh">{{percent_meh}}%</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-3">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Sad</div>
+                                                {% if date_sad|length %}
+                                                <div class="widget-subheading">{{date_sad}}</div>
+                                                {% else %}
+                                                <div class="widget-subheading">{{n_rows_sad}}</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="widget-content-right">
+                                                {% if date_percent_sad|length %}
+                                                <div class="widget-numbers text-sad">{{date_percent_sad}}%</div>
+                                                {% else %}
+                                                <div class="widget-numbers text-sad">{{percent_sad}}%</div>
+                                                {% endif %}
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-3">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Angry</div>
+                                                {% if date_angry|length %}
+                                                <div class="widget-subheading">{{date_angry}}</div>
+                                                {% else %}
+                                                <div class="widget-subheading">{{n_rows_angry}}</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="widget-content-right">
+                                                {% if date_percent_angry|length %}
+                                                <div class="widget-numbers text-angry">{{date_percent_angry}}%</div>
+                                                {% else %}
+                                                <div class="widget-numbers text-angry">{{percent_angry}}%</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+                            <li class="nav-item">
+                                <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                                    <span>Circular Chart</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#tab-content-1">
+                                    <span>Lines & Bars Charts</span>
+                                </a>
+                            </li>
+                        </ul>
+ -->
+                        <div class="tab-content">
+                            <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-24">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body">    
+                                                <div id="chartContainer1" style="height: 500px; width: 100%;"></div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="chartContainer2" style="height: 500px; width: 100%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane tabs-animation fade show active" id="tab-content-1" role="tabpanel">
+                         
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- <script type="text/javascript" src="./assets/scripts/main.js"></script> -->
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function() {
+    
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+    
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+    
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+               'За сегодня': [moment(), moment()],
+               'За вчера': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+               'За последние 7 дней': [moment().subtract(6, 'days'), moment()],
+               'За последние 30 дней': [moment().subtract(29, 'days'), moment()],
+               'За этот месяц': [moment().startOf('month'), moment().endOf('month')],
+               'За предыдущий месяц': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+    
+        cb(start, end);
+    
+    });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>ChartJS - Huge selection of charts created with the React ChartJS Plugin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="Huge selection of charts created with the React ChartJS Plugin">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    
+    <!--
+    =========================================================
+    * ArchitectUI HTML Theme Dashboard - v1.0.0
+    =========================================================
+    * Product Page: https://dashboardpack.com
+    * Copyright 2019 DashboardPack (https://dashboardpack.com)
+    * Licensed under MIT (https://github.com/DashboardPack/architectui-html-theme-free/blob/master/LICENSE)
+    =========================================================
+    * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+    -->
+    <link rel="stylesheet"
+    href="{{url_for('static', filename='assets/css/main.css')}}">
+</head>
+<body>
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        <div class="app-header header-shadow">
+            
+        </div>
+        <div class="app-main">
+                <div class="app-sidebar sidebar-shadow">
+                    <div class="app-header__mobile-menu">
+                        <div>
+                            <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="app-header__menu">
+                        <span>
+                            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                                <span class="btn-icon-wrapper">
+                                    <i class="fa fa-ellipsis-v fa-w-6"></i>
+                                </span>
+                            </button>
+                        </span>
+                    </div>    
+                    <div class="scrollbar-sidebar">
+                        <div class="app-sidebar__inner">
+                            <div class="sidebar-welcome">
+                                <div class="sidebar-widget-content-left">
+                                    <div class="btn-group">
+                                        <img width="50" height="50" class="rounded-circle sidebar-icon" src="static/assets/images/adminka.png" alt="">
+                                        <div class="ml-4 welcome-text">
+                                            <div class="widget-welcome">
+                                                Добро пожаловать,
+                                            </div>
+                                            <div class="widget-heading">
+                                                Админ
+                                            </div>
+                                            <div class="widget-subheading">
+                                                Менеджер
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <ul class="vertical-nav-menu">
+                                <li class="app-sidebar__heading">Статистика</li>
+                                <li>
+                                    <a href="{{ url_for('index') }}">
+                                        <i class="metismenu-icon pe-7s-graph"></i>
+                                        Числовая статистика                                    
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url_for('stats') }}" class="mm-active">
+                                        <i class="metismenu-icon pe-7s-graph2"></i>
+                                        Причинная статистика
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        <div class="app-page-title">
+                            <div class="page-title-wrapper">
+                                <div class="page-title-heading">
+                                    <div class="page-title-icon">
+                                        <i class="pe-7s-display1 icon-gradient bg-amy-crisp">
+                                        </i>
+                                    </div>
+                                    <div>Результаты машинного обучения
+                                        <div class="page-title-subheading">
+                                           Выберите интересующий вас департмент и настроение:
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>    
+                        </div>
+
+                        <form  action="{{ url_for('predict')}}" method="POST">
+                            <div class="row">
+
+                            
+                                <div class="col-md-4 col-xl-6">
+                                    <h2>Выберите департмент</h2>
+                                    <select required name='department2' class='custom-select mb-4' >
+                                        <option value="БИТ"> БИТ </option>
+                                        <option value="БРБ"> БРБ </option>
+                                        <option value="БМБ"> БМБ </option>
+                                        <option value="Корпоративный бизнес"> Корпоративный бизнес </option>
+                                        <option value="Средний бизнес"> Средний бизнес </option>
+                                        <option value="Стратегия, маркетинг и проектный офис"> Стратегия, маркетинг и проектный офис </option>
+                                        <option value="БУДиОД"> БУДиОД </option>
+                                        <option value="HR"> HR </option>
+                                        <option value="Бухгалтерия"> Бухгалтерия </option>
+                                        <option value="ЮД"> ЮД </option>
+                                        <option value="Риски"> Риски </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 col-xl-6">
+                                    <h2>Выберите настроение</h2>
+                                    <select required name='mood2'  class='custom-select mb-4'>
+                                        <option value="happy">Отлично</option>
+                                        <option value="good">Хорошо</option>
+                                        <option value="meh">Не очень</option>
+                                        <option value="sad">Плохо</option>
+                                        <option value="angry">Ужасно</option>                                                            
+                                    </select>
+                                </div>
+                            </div>
+                                <br>
+                                <button type='submit' value='request_plot' class="mb-3 mr-3 btn btn-primary">Submit</button>
+                        </form>
+                        <h1>Selected mood is {{mood}}</h1>
+                        <h1>Selected department is {{department}}</h1>
+                        
+                        <img src="{{ url_for('static', filename=graph) }}" width=900 height=900 />
+
+
+                    </div>
+                </div>
+
+
+        </div>
+    </div>
+<script type="text/javascript" src="{{ url_for('static', filename='assets/scripts/main.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
+</body>
+</html>
+
